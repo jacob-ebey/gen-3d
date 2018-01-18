@@ -1,0 +1,17 @@
+{
+  "name": "gen-3d",
+  "version": "0.0.1",
+  "description": "Generative 3D models via a nerual net",
+  "main": "index.js",
+  "author": "Jacob Ebey",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack index.js docs/bundle.js"
+  },
+  "dependencies": {
+    "brain": "^0.7.0",
+    "simple-ux": "^0.1.1",
+    "three": "^0.89.0",
+    "underscore": "^1.8.3"
+  }
+}
