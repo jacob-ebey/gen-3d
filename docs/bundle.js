@@ -65,6 +65,35 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -114,7 +143,7 @@ module.exports = Duplex;
 
 /*<replacement>*/
 var util = __webpack_require__(3);
-util.inherits = __webpack_require__(1);
+util.inherits = __webpack_require__(0);
 /*</replacement>*/
 
 var Readable = __webpack_require__(12);
@@ -192,35 +221,6 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
 
 /***/ }),
 /* 2 */
@@ -2543,7 +2543,7 @@ exports = module.exports = __webpack_require__(12);
 exports.Stream = exports;
 exports.Readable = exports;
 exports.Writable = __webpack_require__(10);
-exports.Duplex = __webpack_require__(0);
+exports.Duplex = __webpack_require__(1);
 exports.Transform = __webpack_require__(18);
 exports.PassThrough = __webpack_require__(31);
 
@@ -2620,7 +2620,7 @@ Writable.WritableState = WritableState;
 
 /*<replacement>*/
 var util = __webpack_require__(3);
-util.inherits = __webpack_require__(1);
+util.inherits = __webpack_require__(0);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -2651,7 +2651,7 @@ util.inherits(Writable, Stream);
 function nop() {}
 
 function WritableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(0);
+  Duplex = Duplex || __webpack_require__(1);
 
   options = options || {};
 
@@ -2791,7 +2791,7 @@ if (typeof Symbol === 'function' && Symbol.hasInstance && typeof Function.protot
 }
 
 function Writable(options) {
-  Duplex = Duplex || __webpack_require__(0);
+  Duplex = Duplex || __webpack_require__(1);
 
   // Writable ctor is applied to Duplexes, too.
   // `realHasInstance` is necessary because using plain `instanceof`
@@ -49273,7 +49273,7 @@ function _isUint8Array(obj) {
 
 /*<replacement>*/
 var util = __webpack_require__(3);
-util.inherits = __webpack_require__(1);
+util.inherits = __webpack_require__(0);
 /*</replacement>*/
 
 /*<replacement>*/
@@ -49309,7 +49309,7 @@ function prependListener(emitter, event, fn) {
 }
 
 function ReadableState(options, stream) {
-  Duplex = Duplex || __webpack_require__(0);
+  Duplex = Duplex || __webpack_require__(1);
 
   options = options || {};
 
@@ -49377,7 +49377,7 @@ function ReadableState(options, stream) {
 }
 
 function Readable(options) {
-  Duplex = Duplex || __webpack_require__(0);
+  Duplex = Duplex || __webpack_require__(1);
 
   if (!(this instanceof Readable)) return new Readable(options);
 
@@ -52458,11 +52458,11 @@ function simpleEnd(buf) {
 
 module.exports = Transform;
 
-var Duplex = __webpack_require__(0);
+var Duplex = __webpack_require__(1);
 
 /*<replacement>*/
 var util = __webpack_require__(3);
-util.inherits = __webpack_require__(1);
+util.inherits = __webpack_require__(0);
 /*</replacement>*/
 
 util.inherits(Transform, Duplex);
@@ -52616,8 +52616,8 @@ function done(stream, er, data) {
 
   const THREE = __webpack_require__(11)
   
-  const examples = __webpack_require__(38)
-  const renderer = __webpack_require__(39)
+  const examples = __webpack_require__(37)
+  const renderer = __webpack_require__(38)
 
   const render = renderer.init()
 
@@ -52634,7 +52634,7 @@ function done(stream, er, data) {
 
     net.train(grassExamples, {
       errorThresh: 0.005,  // error threshold to reach 
-      iterations: 5000,   // maximum training iterations 
+      iterations: 10000,   // maximum training iterations 
       log: true,           // console.log() progress periodically 
       logPeriod: 100,       // number of iterations between logging 
       learningRate: 0.5    // learning rate 
@@ -52672,7 +52672,7 @@ function done(stream, er, data) {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports.NeuralNetwork = __webpack_require__(21).NeuralNetwork;
-exports.crossValidate = __webpack_require__(37);
+exports.crossValidate = __webpack_require__(36);
 
 
 /***/ }),
@@ -52682,7 +52682,7 @@ exports.crossValidate = __webpack_require__(37);
 var _ = __webpack_require__(4),
     lookup = __webpack_require__(22),
     Writable = __webpack_require__(23).Writable,
-    inherits = __webpack_require__(36);
+    inherits = __webpack_require__(0);
 
 var NeuralNetwork = function(options) {
   options = options || {};
@@ -53340,7 +53340,7 @@ module.exports = {
 module.exports = Stream;
 
 var EE = __webpack_require__(8).EventEmitter;
-var inherits = __webpack_require__(1);
+var inherits = __webpack_require__(0);
 
 inherits(Stream, EE);
 Stream.Readable = __webpack_require__(9);
@@ -54106,7 +54106,7 @@ var Transform = __webpack_require__(18);
 
 /*<replacement>*/
 var util = __webpack_require__(3);
-util.inherits = __webpack_require__(1);
+util.inherits = __webpack_require__(0);
 /*</replacement>*/
 
 util.inherits(PassThrough, Transform);
@@ -54132,7 +54132,7 @@ module.exports = __webpack_require__(10);
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(0);
+module.exports = __webpack_require__(1);
 
 
 /***/ }),
@@ -54151,35 +54151,6 @@ module.exports = __webpack_require__(9).PassThrough
 
 /***/ }),
 /* 36 */
-/***/ (function(module, exports) {
-
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-
-/***/ }),
-/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _ = __webpack_require__(4)._;
@@ -54277,7 +54248,7 @@ module.exports = function crossValidate(classifierConst, data, opts, trainOpts, 
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const THREE = __webpack_require__(11)
@@ -54357,7 +54328,7 @@ module.exports = {
 }
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const THREE = __webpack_require__(11)
