@@ -52624,8 +52624,7 @@ function done(stream, er, data) {
   setInterval(render, 33)
   
   const net = new NeuralNetwork({
-    hiddenLayers: [6],
-    learningRate: 0.3
+    hiddenLayers: [6]
   })
 
   try {
@@ -52635,16 +52634,18 @@ function done(stream, er, data) {
 
     net.train(grassExamples, {
       errorThresh: 0.005,  // error threshold to reach 
-      iterations: 2000,   // maximum training iterations 
+      iterations: 5000,   // maximum training iterations 
       log: true,           // console.log() progress periodically 
       logPeriod: 100,       // number of iterations between logging 
-      learningRate: 0.1    // learning rate 
+      learningRate: 0.5    // learning rate 
     })
 
     setInterval(async () => {
       const sampleInput = [Math.random()]
       console.log(`Sampling for: ${JSON.stringify(sampleInput)}`)
+      console.time('took')
       const newVerts = net.run(sampleInput)
+      console.timeEnd('took')
 
       grass = await examples.loadGrassAsync()
       grass.geometry.vertices = []
@@ -52659,7 +52660,6 @@ function done(stream, er, data) {
       grass.geometry.computeVertexNormals()
 
       renderer.setModel(grass)
-      console.log('here')
     }, 3000)
   } catch (ex) {
     console.log(ex)
